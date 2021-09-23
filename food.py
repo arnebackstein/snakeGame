@@ -1,4 +1,4 @@
-from bardItem import BoardItem
+from boardItem import BoardItem
 from position import Position
 
 

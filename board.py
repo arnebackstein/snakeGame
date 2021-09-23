@@ -3,7 +3,7 @@ import random
 import pygame
 
 import config
-from bardItem import BoardItem
+from boardItem import BoardItem
 from food import Food
 from directions import Direction
 from position import Position
