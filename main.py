@@ -46,6 +46,6 @@ while not game_over:
     pygame.display.update()
 
     clock.tick(30)
-
+# Hallo
 pygame.quit()
 quit()
