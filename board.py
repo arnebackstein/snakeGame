@@ -3,6 +3,8 @@ import random
 import pygame
 
 import config
+from bardItem import BoardItem
+from food import Food
 from directions import Direction
 from position import Position
 from snake import Snake
@@ -46,17 +48,18 @@ class Board(object):
             self.snake.move()
             self.clock.tick(10)
 
-    def add_to_board(self, position: Position) -> bool:
+    def add_to_board(self, item: BoardItem) -> bool:
         # TODO implement
-        return False;
+        return False
 
-    def remove_from_board(self, position: Position) -> bool:
+    def remove_from_board(self, item: BoardItem) -> bool:
         # TODO implement
-        return False;
+        return False
 
     def spawn_food(self):
         x = int(random.uniform(0, config.board['width']))
         y = int(random.uniform(0, config.board['height']))
+        self.add_to_board(Food(Position(x, y)))
 
     def quit(self):
         pygame.quit()
