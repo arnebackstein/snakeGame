@@ -20,7 +20,7 @@ class Board(object):
 
         self.clock = pygame.time.Clock()
         self.snake = Snake([Position(300, 300)], Direction.UP)
-        self.board = [[None] * int(config.board['height'] / 10)] * int(config.board['width'] / 10)
+        self.board = {}
 
     def start_game_loop(self) -> None:
         game_over = False
@@ -44,12 +44,22 @@ class Board(object):
             for part in self.snake.get_snake():
                 pygame.draw.rect(self.display, config.colors['black'], [part.x, part.y, 10, 10])
 
+            for key in self.board:
+                if self.board[key]:
+                    x = self.board[key].get_position().x
+                    y = self.board[key].get_position().y
+                    print(x, y)
+                    pygame.draw.rect(self.display, config.colors['green'], [x*10, y*10, 10, 10])
+
             pygame.display.update()
             self.snake.move()
+            self.spawn_food()
             self.clock.tick(10)
 
     def add_to_board(self, item: BoardItem) -> bool:
-        # TODO implement
+        x = int(item.get_position().x / 10)
+        y = int(item.get_position().y / 10)
+        self.board[x, y] = item
         return False
 
     def remove_from_board(self, item: BoardItem) -> bool:
@@ -57,8 +67,8 @@ class Board(object):
         return False
 
     def spawn_food(self):
-        x = int(random.uniform(0, config.board['width']))
-        y = int(random.uniform(0, config.board['height']))
+        x = int(random.uniform(0, config.board['width']) / 10)
+        y = int(random.uniform(0, config.board['height']) / 10)
         self.add_to_board(Food(Position(x, y)))
 
     def quit(self):
