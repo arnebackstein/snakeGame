@@ -1,6 +1,6 @@
 import pygame
 
-from Directions import Direction
+from directions import Direction
 from snake import Snake
 
 pygame.init()
