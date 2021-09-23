@@ -12,3 +12,6 @@ class Snake:
 
     def set_direction(self, direction):
         self.direction = direction
+
+    def move(self):
+        pass
