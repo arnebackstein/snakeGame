@@ -1,5 +1,5 @@
-from directions import Direction
-from position import Position
+from game.enums.directions import Direction
+from game.enums.position import Position
 
 
 class Snake(object):

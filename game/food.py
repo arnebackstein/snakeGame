@@ -1,5 +1,5 @@
-from boardItem import BoardItem
-from position import Position
+from game.boardItem import BoardItem
+from game.enums.position import Position
 
 
 class Food(BoardItem):

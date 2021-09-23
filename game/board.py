@@ -3,11 +3,11 @@ import random
 import pygame
 
 import config
-from boardItem import BoardItem
-from food import Food
-from directions import Direction
-from position import Position
-from snake import Snake
+from game.boardItem import BoardItem
+from game.food import Food
+from game.enums.directions import Direction
+from game.enums.position import Position
+from game.snake import Snake
 
 
 class Board(object):
