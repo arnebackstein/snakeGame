@@ -24,7 +24,7 @@ game_over = False
 
 clock = pygame.time.Clock()
 
-snake = Snake();
+snake = Snake(list((300, 300)))
 
 while not game_over:
     for event in pygame.event.get():
@@ -32,22 +32,22 @@ while not game_over:
             game_over = True
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_LEFT:
-                snake.setDirection(Direction.LEFT)
+                snake.set_direction(Direction.LEFT)
             elif event.key == pygame.K_RIGHT:
-                snake.setDirection(Direction.RIGHT)
+                snake.set_direction(Direction.RIGHT)
             elif event.key == pygame.K_UP:
-                snake.setDirection(Direction.UP)
+                snake.set_direction(Direction.UP)
             elif event.key == pygame.K_DOWN:
-                snake.setDirection(Direction.DOWN)
+                snake.set_direction(Direction.DOWN)
 
     dis.fill(white)
 
-    for part in snake.getSnake():
+    for part in snake.get_snake():
         pygame.draw.rect(dis, black, [part[0], part[1], 10, 10])
 
     pygame.display.update()
 
-    snake.move();
+    snake.move()
 
     clock.tick(30)
 # Hallo
