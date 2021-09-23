@@ -1,3 +1,10 @@
 class Snake:
-    def __init__(self, position_x, position_y):
-        self.position_x = position_x
+    def __init__(self, body: list(tuple), direction):
+        self.body = body
+        self.direction = direction
+
+    def getSnake(self):
+        return self.body
+
+    def setDirection(self, direction):
+        self.direction = direction
