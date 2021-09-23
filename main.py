@@ -1,6 +1,7 @@
 import pygame
 
 from directions import Direction
+from position import Position
 from snake import Snake
 
 pygame.init()
@@ -24,7 +25,7 @@ game_over = False
 
 clock = pygame.time.Clock()
 
-snake = Snake(list((300, 300)))
+snake = Snake([Position(300, 300)], Direction.UP)
 
 while not game_over:
     for event in pygame.event.get():
@@ -43,13 +44,13 @@ while not game_over:
     dis.fill(white)
 
     for part in snake.get_snake():
-        pygame.draw.rect(dis, black, [part[0], part[1], 10, 10])
+        pygame.draw.rect(dis, black, [part.x, part.y, 10, 10])
 
     pygame.display.update()
 
     snake.move()
 
-    clock.tick(30)
+    clock.tick(10)
 # Hallo
 pygame.quit()
 quit()
