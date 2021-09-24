@@ -4,6 +4,7 @@ import pygame
 
 import config
 from game.boardItem import BoardItem
+from game.border import Border
 from game.enums.directions import Direction
 from game.position import Position
 from game.food import Food
@@ -22,11 +23,12 @@ class Board(object):
 
         self.game_over = False
         self.clock = pygame.time.Clock()
-        self.snake = Snake([SnakeBodyPart(Position(30, 30))], Direction.UP)
+        self.snake = Snake([SnakeBodyPart(Position(15, 15))], Direction.UP)
         self.board = {}
 
     def start_game_loop(self) -> None:
-
+        self.draw_borders()
+        self.spawn_food()
         while not self.game_over:
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
@@ -55,7 +57,6 @@ class Board(object):
             self.draw_board()
             pygame.display.update()
             self.snake.move()
-            self.spawn_food()
             self.clock.tick(10)
 
     def handle_collision(self, item):
@@ -63,9 +64,25 @@ class Board(object):
         if item_on_board:
             if isinstance(item_on_board, Food):
                 self.snake.grow()
+                self.spawn_food()
                 self.remove_from_board(item_on_board)
             elif isinstance(item_on_board, SnakeBodyPart):
                 self.game_over = True
+            elif isinstance(item_on_board, Border):
+                self.game_over = True
+
+    def draw_borders(self):
+        for x in range(config.board['width']):
+            if x < config.board['width'] * 0.3 or x > config.board['width'] * 0.7:
+                self.add_to_board(Border(Position(x, 0)))
+                self.add_to_board(Border(Position(x, config.board['height']-1)))
+
+        for y in range(1, config.board['height'] - 1):
+            if y < config.board['height'] * 0.3 or y > config.board['height'] * 0.7:
+                self.add_to_board(Border(Position(0, y)))
+                self.add_to_board(Border(Position(config.board['width']-1, y)))
+
+
 
     def add_to_board(self, item: BoardItem) -> bool:
         x = int(item.get_position().x)
@@ -80,7 +97,7 @@ class Board(object):
     def remove_from_board_by_type(self, item_type):
         to_remove_keys = list()
         for key in self.board:
-            if type(self.board[key]) is SnakeBodyPart:
+            if type(self.board[key]) is item_type:
                 to_remove_keys.append(key)
         for key in to_remove_keys:
             self.board.pop(key)
@@ -101,10 +118,16 @@ class Board(object):
                                      [x * config.board['scaling'], y * config.board['scaling'],
                                       config.board['scaling'], config.board['scaling']])
 
+                elif isinstance(self.board[key], Border):
+                    pygame.draw.rect(self.display, config.colors['black'],
+                                     [x * config.board['scaling'], y * config.board['scaling'],
+                                      config.board['scaling'], config.board['scaling']])
+
     def spawn_food(self):
         x = int(random.uniform(0, config.board['width']))
         y = int(random.uniform(0, config.board['height']))
-        self.add_to_board(Food(Position(x, y)))
+        if not (x, y) in self.board:
+            self.add_to_board(Food(Position(x, y)))
 
     def quit(self):
         pygame.quit()
