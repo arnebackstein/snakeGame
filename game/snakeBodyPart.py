@@ -1,5 +1,4 @@
 from game.boardItem import BoardItem
-from game.enums.position import Position
 
 
 class SnakeBodyPart(BoardItem):

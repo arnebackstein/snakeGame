@@ -1,4 +1,4 @@
-from game.enums.position import Position
+from game.position import Position
 
 
 class BoardItem(object):
