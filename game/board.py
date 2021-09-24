@@ -14,12 +14,13 @@ class Board(object):
     def __init__(self):
         pygame.init()
 
-        self.display = pygame.display.set_mode((config.board['width'], config.board['height']))
+        self.display = pygame.display.set_mode((config.board['width']*config.board['scaling'],
+                                                config.board['height']*config.board['scaling']))
         pygame.display.update()
         pygame.display.set_caption('SUPER CRAZY SHIT')
 
         self.clock = pygame.time.Clock()
-        self.snake = Snake([Position(300, 300)], Direction.UP)
+        self.snake = Snake([Position(30, 30)], Direction.UP)
         self.board = {}
 
     def start_game_loop(self) -> None:
@@ -42,14 +43,13 @@ class Board(object):
             self.display.fill(config.colors['white'])
 
             for part in self.snake.get_snake():
-                pygame.draw.rect(self.display, config.colors['black'], [part.x, part.y, 10, 10])
+                pygame.draw.rect(self.display, config.colors['black'], [part.x*config.board['scaling'], part.y*config.board['scaling'], config.board['scaling'], config.board['scaling']])
 
             for key in self.board:
                 if self.board[key]:
                     x = self.board[key].get_position().x
                     y = self.board[key].get_position().y
-                    print(x, y)
-                    pygame.draw.rect(self.display, config.colors['green'], [x*10, y*10, 10, 10])
+                    pygame.draw.rect(self.display, config.colors['green'], [x*config.board['scaling'], y*config.board['scaling'], config.board['scaling'], config.board['scaling']])
 
             pygame.display.update()
             self.snake.move()
@@ -57,8 +57,8 @@ class Board(object):
             self.clock.tick(10)
 
     def add_to_board(self, item: BoardItem) -> bool:
-        x = int(item.get_position().x / 10)
-        y = int(item.get_position().y / 10)
+        x = int(item.get_position().x)
+        y = int(item.get_position().y)
         self.board[x, y] = item
         return False
 
@@ -67,8 +67,8 @@ class Board(object):
         return False
 
     def spawn_food(self):
-        x = int(random.uniform(0, config.board['width']) / 10)
-        y = int(random.uniform(0, config.board['height']) / 10)
+        x = int(random.uniform(0, config.board['width']))
+        y = int(random.uniform(0, config.board['height']))
         self.add_to_board(Food(Position(x, y)))
 
     def quit(self):

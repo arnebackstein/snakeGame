@@ -1,6 +1,7 @@
 board = dict(
-    width=800,
-    height=600,
+    width=80,
+    height=60,
+    scaling=10
 )
 
 colors = dict(

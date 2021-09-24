@@ -21,13 +21,13 @@ class Snake(object):
     def move(self):
         next_position = self.body[0]
         if self.direction == Direction.UP:
-            next_position.y -= 10
+            next_position.y -= 1
         elif self.direction == Direction.RIGHT:
-            next_position.x += 10
+            next_position.x += 1
         elif self.direction == Direction.DOWN:
-            next_position.y += 10
+            next_position.y += 1
         elif self.direction == Direction.LEFT:
-            next_position.x -= 10
+            next_position.x -= 1
 
         self.body.insert(0, next_position)
         self.body.pop(-1)
