@@ -82,8 +82,6 @@ class Board(object):
                 self.add_to_board(Border(Position(0, y)))
                 self.add_to_board(Border(Position(config.board['width']-1, y)))
 
-
-
     def add_to_board(self, item: BoardItem) -> bool:
         x = int(item.get_position().x)
         y = int(item.get_position().y)
