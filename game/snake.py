@@ -1,9 +1,10 @@
 from game.enums.directions import Direction
 from game.enums.position import Position
+from game.snakeBodyPart import SnakeBodyPart
 
 
 class Snake(object):
-    def __init__(self, body: list[Position], direction: Direction):
+    def __init__(self, body: list[SnakeBodyPart], direction: Direction):
         self.body = body
         self.direction = direction
 
@@ -19,7 +20,7 @@ class Snake(object):
         self.direction = direction
 
     def move(self):
-        next_position = self.body[0]
+        next_position = self.body[0].get_position()
         if self.direction == Direction.UP:
             next_position.y -= 1
         elif self.direction == Direction.RIGHT:
@@ -29,5 +30,5 @@ class Snake(object):
         elif self.direction == Direction.LEFT:
             next_position.x -= 1
 
-        self.body.insert(0, next_position)
+        self.body.insert(0, SnakeBodyPart(next_position))
         self.body.pop(-1)

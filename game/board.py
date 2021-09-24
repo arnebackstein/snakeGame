@@ -4,23 +4,24 @@ import pygame
 
 import config
 from game.boardItem import BoardItem
-from game.food import Food
 from game.enums.directions import Direction
 from game.enums.position import Position
+from game.food import Food
 from game.snake import Snake
+from game.snakeBodyPart import SnakeBodyPart
 
 
 class Board(object):
     def __init__(self):
         pygame.init()
 
-        self.display = pygame.display.set_mode((config.board['width']*config.board['scaling'],
-                                                config.board['height']*config.board['scaling']))
+        self.display = pygame.display.set_mode((config.board['width'] * config.board['scaling'],
+                                                config.board['height'] * config.board['scaling']))
         pygame.display.update()
         pygame.display.set_caption('SUPER CRAZY SHIT')
 
         self.clock = pygame.time.Clock()
-        self.snake = Snake([Position(30, 30)], Direction.UP)
+        self.snake = Snake([SnakeBodyPart(Position(30, 30))], Direction.UP)
         self.board = {}
 
     def start_game_loop(self) -> None:
@@ -43,13 +44,22 @@ class Board(object):
             self.display.fill(config.colors['white'])
 
             for part in self.snake.get_snake():
-                pygame.draw.rect(self.display, config.colors['black'], [part.x*config.board['scaling'], part.y*config.board['scaling'], config.board['scaling'], config.board['scaling']])
+                self.add_to_board(part)
 
             for key in self.board:
-                if self.board[key]:
+                if isinstance(self.board[key], BoardItem):
                     x = self.board[key].get_position().x
                     y = self.board[key].get_position().y
-                    pygame.draw.rect(self.display, config.colors['green'], [x*config.board['scaling'], y*config.board['scaling'], config.board['scaling'], config.board['scaling']])
+
+                    if isinstance(self.board[key], Food):
+                        pygame.draw.rect(self.display, config.colors['green'],
+                                         [x * config.board['scaling'], y * config.board['scaling'],
+                                          config.board['scaling'], config.board['scaling']])
+
+                    elif isinstance(self.board[key], SnakeBodyPart):
+                        pygame.draw.rect(self.display, config.colors['black'],
+                                         [x * config.board['scaling'], y * config.board['scaling'],
+                                          config.board['scaling'], config.board['scaling']])
 
             pygame.display.update()
             self.snake.move()
